@@ -10,7 +10,10 @@ public class Character : MonoBehaviour
     public float speed = 30f;
     public SpriteRenderer sprite;
 
-    public Sprite[] animation;
+    public Sprite[] anim;
+    private bool animLoop = false;
+    private float animPeriod = 0.2f;
+    private float animTime = 0f;
 
     private Rigidbody2D rb;
     private RaycastHit2D[] results = new RaycastHit2D[3];
@@ -23,6 +26,8 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //movement/collision
         movement = Vector3.zero;
         if(Input.GetKey(KeyCode.W) ^ Input.GetKey(KeyCode.S)) {
             if (Input.GetKey(KeyCode.W)) {
@@ -52,19 +57,64 @@ public class Character : MonoBehaviour
         transform.position += speed * Time.deltaTime * movement;
 
         //animation
+        animTime = (animTime + Time.deltaTime) % (2 * animPeriod);
+        animLoop = animTime < animPeriod;
         if(movement.x > 0) {
-            sprite.sprite = animation[1];
+            if(animLoop) {
+                sprite.sprite = anim[13];
+            }
+            else {
+                sprite.sprite = anim[14];
+            }
+            previousMovement = movement;
         } else if (movement.x < 0) {
-            sprite.sprite = animation[0];
+            if (animLoop) {
+                sprite.sprite = anim[9];
+            } else {
+                sprite.sprite = anim[10];
+            }
+            previousMovement = movement;
         } else {
-            sprite.sprite = animation[0];
+            if (movement.y > 0) {
+                if (animLoop) {
+                    sprite.sprite = anim[5];
+                } else {
+                    sprite.sprite = anim[6];
+                }
+                previousMovement = movement;
+            }
+            else if (movement.y < 0) {
+                if (animLoop) {
+                    sprite.sprite = anim[1];
+                } else {
+                    sprite.sprite = anim[2];
+                }
+                previousMovement = movement;
+            } 
+            else {
+                if(previousMovement.x > 0) {
+                    sprite.sprite = anim[12];
+                } else if (previousMovement.x < 0) {
+                    sprite.sprite = anim[8];
+                } else if (previousMovement.y > 0) {
+                    sprite.sprite = anim[4];
+                } else if (previousMovement.y < 0) {
+                    sprite.sprite = anim[0];
+                } else {
+                    sprite.sprite = anim[0];
+                }
+            }
         }
-        previousMovement = movement;
+
+        //action
+        if(Input.GetKey(KeyCode.F)) {
+
+        }
+        
     }
 
     private bool CheckCollision(Vector3 movement) {
-        int count = rb.Cast(new Vector2(movement.x, movement.y), results, Time.deltaTime * speed);
-        return count > 0;
+        return 0 < rb.Cast(new Vector2(movement.x, movement.y), results, Time.deltaTime * speed);
     }
 
 
