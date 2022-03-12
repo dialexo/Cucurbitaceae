@@ -36,6 +36,7 @@ public class PickupItem : MonoBehaviour
     public void Release() {
         held = false;
         transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
+        transform.GetChild(0).localPosition = new Vector3(0f, 0f, 0f);
         transform.parent = originalParent;
     }
 

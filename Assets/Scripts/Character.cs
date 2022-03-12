@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-
+    public KeyCode[] keybinding;
     public Vector3 movement;
     public Vector3 previousMovement;
     public float speed = 30f;
@@ -20,6 +20,8 @@ public class Character : MonoBehaviour
     public List<PickupItem> pickupItems;
     public PickupItem item;
 
+    public List<Plant> candidatePlants;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,25 +34,25 @@ public class Character : MonoBehaviour
 
         //movement/collision
         movement = Vector3.zero;
-        if(Input.GetKey(KeyCode.W) ^ Input.GetKey(KeyCode.S)) {
-            if (Input.GetKey(KeyCode.W)) {
+        if(Input.GetKey(keybinding[0]) ^ Input.GetKey(keybinding[1])) {
+            if (Input.GetKey(keybinding[0])) {
                 if(!CheckCollision(Vector3.up)) {
                     movement += Vector3.up;
                 }
             }
-            if (Input.GetKey(KeyCode.S)) {
+            if (Input.GetKey(keybinding[1])) {
                 if (!CheckCollision(Vector3.down)) {
                     movement += Vector3.down;
                 }
             }
         }
-        if(Input.GetKey(KeyCode.A) ^ Input.GetKey(KeyCode.D)) {
-            if (Input.GetKey(KeyCode.A)) {
+        if(Input.GetKey(keybinding[2]) ^ Input.GetKey(keybinding[3])) {
+            if (Input.GetKey(keybinding[2])) {
                 if (!CheckCollision(Vector3.left)) {
                     movement += Vector3.left;
                 }
             }
-            if (Input.GetKey(KeyCode.D)) {
+            if (Input.GetKey(keybinding[3])) {
                 if (!CheckCollision(Vector3.right)) {
                     movement += Vector3.right;
                 }
@@ -72,6 +74,8 @@ public class Character : MonoBehaviour
             if (item) {
                 item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
                 item.transform.localScale = new Vector3(-1f, 1f, 1f);
+                item.transform.GetChild(0).localPosition = new Vector3(0f, 0f, 0f);
+
             }
             previousMovement = movement;
         } else if (movement.x < 0) {
@@ -83,6 +87,8 @@ public class Character : MonoBehaviour
             if (item) {
                 item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
                 item.transform.localScale = new Vector3(1f, 1f, 1f);
+                item.transform.GetChild(0).localPosition = new Vector3(0f, 0f, 0f);
+
             }
             previousMovement = movement;
         } else {
@@ -95,6 +101,7 @@ public class Character : MonoBehaviour
                 if (item) {
                     item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
                     item.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
                 }
                 previousMovement = movement;
             }
@@ -107,6 +114,7 @@ public class Character : MonoBehaviour
                 if (item) {
                     item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
                     item.transform.localScale = new Vector3(1f, 1f, 1f);
+                    item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
                 }
                 previousMovement = movement;
             } 
@@ -116,37 +124,42 @@ public class Character : MonoBehaviour
                     if (item) {
                         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
                         item.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        item.transform.GetChild(0).localPosition = new Vector3(0f, 0f, 0f);
                     }
                 } else if (previousMovement.x < 0) {
                     sprite.sprite = anim[8];
                     if (item) {
                         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
                         item.transform.localScale = new Vector3(1f, 1f, 1f);
+                        item.transform.GetChild(0).localPosition = new Vector3(0f, 0f, 0f);
                     }
                 } else if (previousMovement.y > 0) {
                     sprite.sprite = anim[4];
                     if (item) {
                         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
                         item.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
                     }
                 } else if (previousMovement.y < 0) {
                     sprite.sprite = anim[0];
                     if (item) {
                         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
                         item.transform.localScale = new Vector3(1f, 1f, 1f);
+                        item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
                     }
                 } else {
                     sprite.sprite = anim[0];
                     if (item) {
                         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
                         item.transform.localScale = new Vector3(1f, 1f, 1f);
+                        item.transform.GetChild(0).localPosition = new Vector3(0f, 0f, 0f);
                     }
                 }
             }
         }
 
         //pickup
-        if(Input.GetKeyDown(KeyCode.F)) {
+        if(Input.GetKeyDown(keybinding[4])) {
             if(item) {
                 item.Release();
                 item = null;
@@ -161,9 +174,12 @@ public class Character : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.G)) {
-            if(item) {
-
+        if(Input.GetKeyDown(keybinding[5])) {
+            foreach (Plant plant in candidatePlants) {
+                if (!plant.tended) {
+                    plant.Tend(item.type);
+                    break;
+                }
             }
         }
         
