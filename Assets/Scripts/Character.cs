@@ -9,14 +9,17 @@ public class Character : MonoBehaviour
     public Vector3 previousMovement;
     public float speed = 30f;
     public SpriteRenderer sprite;
+    private Rigidbody2D rb;
+    private RaycastHit2D[] results = new RaycastHit2D[5];
 
     public Sprite[] anim;
     private bool animLoop = false;
     private float animPeriod = 0.2f;
     private float animTime = 0f;
 
-    private Rigidbody2D rb;
-    private RaycastHit2D[] results = new RaycastHit2D[3];
+    public List<PickupItem> pickupItems;
+    public PickupItem item;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,12 +69,20 @@ public class Character : MonoBehaviour
             else {
                 sprite.sprite = anim[14];
             }
+            if (item) {
+                item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
+                item.transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
             previousMovement = movement;
         } else if (movement.x < 0) {
             if (animLoop) {
                 sprite.sprite = anim[9];
             } else {
                 sprite.sprite = anim[10];
+            }
+            if (item) {
+                item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
+                item.transform.localScale = new Vector3(1f, 1f, 1f);
             }
             previousMovement = movement;
         } else {
@@ -81,6 +92,10 @@ public class Character : MonoBehaviour
                 } else {
                     sprite.sprite = anim[6];
                 }
+                if (item) {
+                    item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
+                    item.transform.localScale = new Vector3(-1f, 1f, 1f);
+                }
                 previousMovement = movement;
             }
             else if (movement.y < 0) {
@@ -89,33 +104,80 @@ public class Character : MonoBehaviour
                 } else {
                     sprite.sprite = anim[2];
                 }
+                if (item) {
+                    item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
+                    item.transform.localScale = new Vector3(1f, 1f, 1f);
+                }
                 previousMovement = movement;
             } 
             else {
                 if(previousMovement.x > 0) {
                     sprite.sprite = anim[12];
+                    if (item) {
+                        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
+                        item.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    }
                 } else if (previousMovement.x < 0) {
                     sprite.sprite = anim[8];
+                    if (item) {
+                        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
+                        item.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
                 } else if (previousMovement.y > 0) {
                     sprite.sprite = anim[4];
+                    if (item) {
+                        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
+                        item.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    }
                 } else if (previousMovement.y < 0) {
                     sprite.sprite = anim[0];
+                    if (item) {
+                        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
+                        item.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
                 } else {
                     sprite.sprite = anim[0];
+                    if (item) {
+                        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
+                        item.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
                 }
             }
         }
 
-        //action
-        if(Input.GetKey(KeyCode.F)) {
+        //pickup
+        if(Input.GetKeyDown(KeyCode.F)) {
+            if(item) {
+                item.Release();
+                item = null;
+            } else {
+                foreach(PickupItem pickable in pickupItems) {
+                    if(!pickable.held) {
+                        pickable.Grab(transform);
+                        item = pickable;
+                        break;
+                    }
+                }
+            }
+        }
 
+        if(Input.GetKeyDown(KeyCode.G)) {
+            if(item) {
+
+            }
         }
         
     }
 
     private bool CheckCollision(Vector3 movement) {
-        return 0 < rb.Cast(new Vector2(movement.x, movement.y), results, Time.deltaTime * speed);
+        int count = rb.Cast(new Vector2(movement.x, movement.y), results, Time.deltaTime * speed);
+        int triggers = 0;
+        for(int i = 0; i < count; i++) {
+            if(results[i].collider.isTrigger) {
+                triggers++;
+            }
+        }
+        return 0 < count - triggers;
     }
-
 
 }
