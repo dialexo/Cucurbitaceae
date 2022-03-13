@@ -13,8 +13,7 @@ public class Character : MonoBehaviour
     private RaycastHit2D[] results = new RaycastHit2D[5];
 
     public Sprite[] anim;
-    private bool animLoop = false;
-    private float animPeriod = 0.2f;
+    private float animPeriod = 0.4f;
     private float animTime = 0f;
 
     public List<PickupItem> pickupItems;
@@ -62,14 +61,16 @@ public class Character : MonoBehaviour
         transform.position += speed * Time.deltaTime * movement;
 
         //animation
-        animTime = (animTime + Time.deltaTime) % (2 * animPeriod);
-        animLoop = animTime < animPeriod;
+        animTime = (animTime + Time.deltaTime) % (animPeriod);
         if(movement.x > 0) {
-            if(animLoop) {
+            if (animTime < (animPeriod / 4)) {
                 sprite.sprite = anim[13];
-            }
-            else {
+            } else if (animTime < (animPeriod / 2)) {
+                sprite.sprite = anim[12];
+            } else if (animTime < (3 * animPeriod / 4)) {
                 sprite.sprite = anim[14];
+            } else {
+                sprite.sprite = anim[12];
             }
             if (item) {
                 item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
@@ -79,10 +80,14 @@ public class Character : MonoBehaviour
             }
             previousMovement = movement;
         } else if (movement.x < 0) {
-            if (animLoop) {
+            if (animTime < (animPeriod / 4)) {
                 sprite.sprite = anim[9];
-            } else {
+            } else if (animTime < (animPeriod / 2)) {
+                sprite.sprite = anim[8];
+            } else if (animTime < (3 * animPeriod / 4)) {
                 sprite.sprite = anim[10];
+            } else {
+                sprite.sprite = anim[8];
             }
             if (item) {
                 item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
@@ -93,10 +98,14 @@ public class Character : MonoBehaviour
             previousMovement = movement;
         } else {
             if (movement.y > 0) {
-                if (animLoop) {
+                if (animTime < (animPeriod / 4)) {
                     sprite.sprite = anim[5];
-                } else {
+                } else if (animTime < (animPeriod / 2)) {
+                    sprite.sprite = anim[4];
+                } else if (animTime < (3 * animPeriod / 4)) {
                     sprite.sprite = anim[6];
+                } else {
+                    sprite.sprite = anim[4];
                 }
                 if (item) {
                     item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
@@ -106,10 +115,14 @@ public class Character : MonoBehaviour
                 previousMovement = movement;
             }
             else if (movement.y < 0) {
-                if (animLoop) {
+                if (animTime < (animPeriod / 4)) {
                     sprite.sprite = anim[1];
-                } else {
+                } else if (animTime < (animPeriod / 2)) {
+                    sprite.sprite = anim[0];
+                } else if (animTime < (3 * animPeriod / 4)) {
                     sprite.sprite = anim[2];
+                } else {
+                    sprite.sprite = anim[0];
                 }
                 if (item) {
                     item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);

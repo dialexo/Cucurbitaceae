@@ -13,7 +13,7 @@ public class Cat : MonoBehaviour
     }
 
     public float DEFAULT_SPEED = 5f;
-    public int N_ANIM_SPRITES = 2;
+    public int N_ANIM_SPRITES = 4;
     public Character player;
 
     public Sprite[] sprites;
@@ -103,10 +103,10 @@ public class Cat : MonoBehaviour
                 this.baseSpriteIdx = 0;
                 break;
             case Behaviour.Enraged:
-                this.movement = GenerateRandomMovement();
+                this.movement = -this.movement;//GenerateRandomMovement();
                 this.movementFn = () => this.movement;
                 this.speed = DEFAULT_SPEED * 2.5f;
-                this.baseSpriteIdx = 2;
+                this.baseSpriteIdx = 4;
                 if (setDelayedCalmBehaviour != null)
                 {
                     StopCoroutine(setDelayedCalmBehaviour);

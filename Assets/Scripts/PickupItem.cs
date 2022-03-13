@@ -31,6 +31,7 @@ public class PickupItem : MonoBehaviour
         held = true;
         transform.position = parent.position + offset;
         transform.parent = parent;
+        GetComponent<Rigidbody2D>().isKinematic = true;
     }
 
     public void Release() {
@@ -38,6 +39,7 @@ public class PickupItem : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
         transform.GetChild(0).localPosition = new Vector3(0f, 0f, 0f);
         transform.parent = originalParent;
+        GetComponent<Rigidbody2D>().isKinematic = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
