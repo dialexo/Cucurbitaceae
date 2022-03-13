@@ -75,11 +75,11 @@ public class GameSuperviser : MonoBehaviour
         PickupItem.ItemType,
         int,
         PickupItem.ItemType)[5];
-        config[0] = (60f, 0, 3, PickupItem.ItemType.Arrosoir, 4, PickupItem.ItemType.Spray, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel);
-        config[1] = (60f, 0, 3, PickupItem.ItemType.Arrosoir, 4, PickupItem.ItemType.Spray, 3, PickupItem.ItemType.Spray, 2, PickupItem.ItemType.Arrosoir, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel);
-        config[2] = (45f, 0, 1, PickupItem.ItemType.Spray, 1, PickupItem.ItemType.Shovel, 1, PickupItem.ItemType.Arrosoir, 1, PickupItem.ItemType.Spray, 1, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel);
-        config[3] = (45f, 0, 3, PickupItem.ItemType.Spray, 2, PickupItem.ItemType.Shovel, 3, PickupItem.ItemType.Shovel, 4, PickupItem.ItemType.Shovel,3, PickupItem.ItemType.Arrosoir, 1, PickupItem.ItemType.Shovel, 1, PickupItem.ItemType.Shovel);
-        config[4] = (30f, 0, 3, PickupItem.ItemType.Arrosoir, 2, PickupItem.ItemType.Shovel, 2, PickupItem.ItemType.Arrosoir, 1, PickupItem.ItemType.Shovel, 3, PickupItem.ItemType.Arrosoir, 2, PickupItem.ItemType.Spray, 4, PickupItem.ItemType.Spray);
+        config[0] = (60f, 2, 3, PickupItem.ItemType.Arrosoir, 4, PickupItem.ItemType.Spray, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel);
+        config[1] = (60f, 2, 3, PickupItem.ItemType.Arrosoir, 4, PickupItem.ItemType.Spray, 3, PickupItem.ItemType.Spray, 2, PickupItem.ItemType.Arrosoir, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel);
+        config[2] = (45f, 4, 1, PickupItem.ItemType.Spray, 1, PickupItem.ItemType.Shovel, 1, PickupItem.ItemType.Arrosoir, 1, PickupItem.ItemType.Spray, 1, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel, 0, PickupItem.ItemType.Shovel);
+        config[3] = (45f, 3, 3, PickupItem.ItemType.Spray, 2, PickupItem.ItemType.Shovel, 3, PickupItem.ItemType.Shovel, 4, PickupItem.ItemType.Shovel,3, PickupItem.ItemType.Arrosoir, 1, PickupItem.ItemType.Shovel, 1, PickupItem.ItemType.Shovel);
+        config[4] = (40f, 4, 3, PickupItem.ItemType.Arrosoir, 2, PickupItem.ItemType.Shovel, 2, PickupItem.ItemType.Arrosoir, 1, PickupItem.ItemType.Shovel, 3, PickupItem.ItemType.Arrosoir, 2, PickupItem.ItemType.Spray, 4, PickupItem.ItemType.Spray);
 
 
 
@@ -289,7 +289,9 @@ public class GameSuperviser : MonoBehaviour
 
             //Instantiate Enemies
             for (int i = 0; i < catNum; i++) {
-                enemiesPlanted.Add(Instantiate(enemies[0], FindPos(38f, 20f), Quaternion.identity));
+                lastCreated = Instantiate(enemies[0], FindPos(38f, 20f), Quaternion.identity);
+                lastCreated.GetComponent<Cat>().player = characters[i%characters.Length]; 
+                enemiesPlanted.Add(lastCreated);
             }
 
             //Pause ready to start
