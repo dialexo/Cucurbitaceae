@@ -188,10 +188,12 @@ public class Character : MonoBehaviour
         }
 
         if(Input.GetKeyDown(keybinding[5])) {
-            foreach (Plant plant in candidatePlants) {
-                if (!plant.tended) {
-                    plant.Tend(item.type);
-                    break;
+            if(item) {
+                foreach (Plant plant in candidatePlants) {
+                    if (!plant.tended) {
+                        plant.Tend(item.type);
+                        break;
+                    }
                 }
             }
         }
