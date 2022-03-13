@@ -20,8 +20,8 @@ public class Cat : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     private int baseSpriteIdx = 0;
 
-    public Rigidbody2D rigidBody;
-
+    private Rigidbody2D rigidBody;
+    private AudioSource meow;
     private Vector3 movement;
     private float speed;
     private Behaviour behaviour;
@@ -50,8 +50,9 @@ public class Cat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.SetBehaviour(Behaviour.Calm);
+        this.meow = GetComponent<AudioSource>();
         this.rigidBody = this.GetComponent<Rigidbody2D>();
+        this.SetBehaviour(Behaviour.Calm);
         StartCoroutine(AnimateSprites());
     }
 
@@ -98,11 +99,13 @@ public class Cat : MonoBehaviour
         switch (behaviour)
         {
             case Behaviour.Calm:
+                this.meow.Stop();
                 this.movementFn = () => (this.player.transform.position - this.transform.position);
                 this.speed = DEFAULT_SPEED;
                 this.baseSpriteIdx = 0;
                 break;
             case Behaviour.Enraged:
+                this.meow.Play();
                 this.movement = -this.movement;//GenerateRandomMovement();
                 this.movementFn = () => this.movement;
                 this.speed = DEFAULT_SPEED * 3f;
