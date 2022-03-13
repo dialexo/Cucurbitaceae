@@ -105,13 +105,12 @@ public class Cat : MonoBehaviour
             case Behaviour.Enraged:
                 this.movement = -this.movement;//GenerateRandomMovement();
                 this.movementFn = () => this.movement;
-                this.speed = DEFAULT_SPEED * 2.5f;
-                this.baseSpriteIdx = 4;
-                if (setDelayedCalmBehaviour != null)
+                this.speed = DEFAULT_SPEED * 3f;
+                this.baseSpriteIdx = N_ANIM_SPRITES;
+                if (setDelayedCalmBehaviour == null)
                 {
-                    StopCoroutine(setDelayedCalmBehaviour);
+                    this.setDelayedCalmBehaviour = StartCoroutine(SetDelayedCalmBehaviour());
                 }
-                this.setDelayedCalmBehaviour = StartCoroutine(SetDelayedCalmBehaviour());
                 break;
         }
     }
