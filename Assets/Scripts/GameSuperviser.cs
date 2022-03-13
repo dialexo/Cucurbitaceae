@@ -13,6 +13,9 @@ public class GameSuperviser : MonoBehaviour
     public Text timerDisplay;
     public Text levelDisplay;
     public GameObject gameoverDisplay;
+    public GameObject gameclearDisplay;
+    public GameObject titleScreen;
+
     public GameObject arrosoirUI;
     public GameObject sprayUI;
     public GameObject shovelUI;
@@ -49,6 +52,7 @@ public class GameSuperviser : MonoBehaviour
         int,
         PickupItem.ItemType)[] config;
 
+    private bool gameStarted = false;
     private int currentLevel;
     public bool gameover = false;
     private bool timerRunning = false;
@@ -84,12 +88,15 @@ public class GameSuperviser : MonoBehaviour
 
 
 
-        StartCoroutine(Game());
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            StartGame();
+        }
         if(timerRunning) {
             bool accTended = true;
             foreach(GameObject plant in plantsPlanted) {
@@ -335,16 +342,29 @@ public class GameSuperviser : MonoBehaviour
         Application.Quit();
     }
 
+    private void StartGame() {
+        
+        if (!gameStarted) {
+            gameStarted = true;
+            titleScreen.SetActive(false);
+            StartCoroutine(Game());
+        }
+    }
+
     private void PauseGame() {
-        herbarium.SetActive(true);
-        gamePaused = true;
-        Time.timeScale = 0f;
+        if(gameStarted) {
+            herbarium.SetActive(true);
+            gamePaused = true;
+            Time.timeScale = 0f;
+        }
     }
 
     private void UnpauseGame() {
-        herbarium.SetActive(false);
-        gamePaused = false;
-        Time.timeScale = 1f;
+        if (gameStarted) {
+            herbarium.SetActive(false);
+            gamePaused = false;
+            Time.timeScale = 1f;
+        }
     }
 
     public Vector3 FindPos(float boundsX, float boundsY) {
