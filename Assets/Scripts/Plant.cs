@@ -5,13 +5,19 @@ using UnityEngine;
 public class Plant : MonoBehaviour
 {
     public PickupItem.ItemType toolNeeded;
+    
+    public Sprite[] sprites;
+
     //public AudioSource audio;
     public bool tended;
+    private SpriteRenderer spriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         tended = false;
+        spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprites[0];
     }
 
     // Update is called once per frame
@@ -21,10 +27,12 @@ public class Plant : MonoBehaviour
     }
 
     public void Tend(PickupItem.ItemType toolUsed) {
-        tended = true;
         if(toolNeeded == toolUsed) {
+            tended = true;
+            spriteRenderer.sprite = sprites[1];
             Debug.Log("Plant tended");
         } else {
+            spriteRenderer.sprite = sprites[2];
             Debug.Log("Plant destroyed");
         }
     }

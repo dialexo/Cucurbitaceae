@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   held: 0
   type: 1
-  offset: {x: 0, y: -0.6, z: 0}
+  offset: {x: 0, y: -0.8, z: 0}
 --- !u!58 &1204862333576719940
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 1204862334111961393}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1204862333576719938}
   m_RootOrder: 0

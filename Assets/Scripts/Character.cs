@@ -101,16 +101,16 @@ public class Character : MonoBehaviour
                 if (animTime < (animPeriod / 4)) {
                     sprite.sprite = anim[5];
                 } else if (animTime < (animPeriod / 2)) {
-                    sprite.sprite = anim[4];
+                    sprite.sprite = anim[5];
                 } else if (animTime < (3 * animPeriod / 4)) {
                     sprite.sprite = anim[6];
                 } else {
-                    sprite.sprite = anim[4];
+                    sprite.sprite = anim[6];
                 }
                 if (item) {
                     item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
                     item.transform.localScale = new Vector3(-1f, 1f, 1f);
-                    item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
+                    item.transform.GetChild(0).localPosition = new Vector3(0.5f, 0f, 0f);
                 }
                 previousMovement = movement;
             }
@@ -118,16 +118,16 @@ public class Character : MonoBehaviour
                 if (animTime < (animPeriod / 4)) {
                     sprite.sprite = anim[1];
                 } else if (animTime < (animPeriod / 2)) {
-                    sprite.sprite = anim[0];
+                    sprite.sprite = anim[1];
                 } else if (animTime < (3 * animPeriod / 4)) {
                     sprite.sprite = anim[2];
                 } else {
-                    sprite.sprite = anim[0];
+                    sprite.sprite = anim[2];
                 }
                 if (item) {
                     item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
                     item.transform.localScale = new Vector3(1f, 1f, 1f);
-                    item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
+                    item.transform.GetChild(0).localPosition = new Vector3(0.5f, 0f, 0f);
                 }
                 previousMovement = movement;
             } 
@@ -151,14 +151,14 @@ public class Character : MonoBehaviour
                     if (item) {
                         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1f);
                         item.transform.localScale = new Vector3(-1f, 1f, 1f);
-                        item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
+                        item.transform.GetChild(0).localPosition = new Vector3(0.5f, 0f, 0f);
                     }
                 } else if (previousMovement.y < 0) {
                     sprite.sprite = anim[0];
                     if (item) {
                         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, -1f);
                         item.transform.localScale = new Vector3(1f, 1f, 1f);
-                        item.transform.GetChild(0).localPosition = new Vector3(0.45f, 0f, 0f);
+                        item.transform.GetChild(0).localPosition = new Vector3(0.5f, 0f, 0f);
                     }
                 } else {
                     sprite.sprite = anim[0];
